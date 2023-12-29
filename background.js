@@ -1,16 +1,27 @@
-function announce_close(){
-	console.log("closing all search tabs")
-	chrome.tabs.query({}, function(tabs) {
-		var closeable=[];
-		for (var i=0; i<tabs.length; ++i) {
-			console.log(tabs[i]);
-			if(tabs[i].url.includes("google.com/search?")) {	
-				closeable.push(tabs[i].id)
-			} else if(tabs[i].url.includes("duckduckgo.com/?q=")){
-				closeable.push(tabs[i].id)
+function announce_close() {
+	console.log("closing all youtube tabs")
+	chrome.tabs.query({}, function (tabs) {
+		var closeable = [];
+		for (var i = 0; i < tabs.length; ++i) {
+			// console.log(tabs[i]);
+			const patterns = [
+				"youtube.com/watch?",
+				"youtu.be/",
+				"google.com/search?",
+				"duckduckgo.com/?q=",
+			]
+			for (const pattern of patterns) {
+				if (tabs[i].url.includes(pattern)) {
+					console.log("closing tab: " + tabs[i].url);
+					closeable.push(tabs[i].id);
+				}
 			}
 		}
+		console.log("closing " + closeable.length + " tabs");
 		chrome.tabs.remove(closeable);
+		console.log("tabs closed");
 	});
 }
-chrome.browserAction.onClicked.addListener(function(tab){announce_close()});
+chrome.browserAction.onClicked.addListener(function (tab) {
+	announce_close();
+});

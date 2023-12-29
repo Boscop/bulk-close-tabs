@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Close Search Tabs",
-     "description": "Closes all Google Search tabs when clicked to free up tabs and save your sanity.",
-  "short_name":"SearchBGon",
-  "author": "Tai Groot",
+  "name": "Bulk Close Tabs",
+  "description": "Closes all YouTube tabs when clicked to free up tabs and save your sanity",
+  "short_name":"BulkCloseTabs",
+  "author": "Boscop",
   "version": "3.0.1",
   "browser_action": {
     "default_icon": "static/icon.png"
@@ -18,11 +18,11 @@
     "<all_urls>"
   ],
   "commands":{
-	"_execute_browser_action":{
-		"suggested_key":{
-			"default": "Ctrl+Shift+Z"
-		}
-	}
+  "_execute_browser_action":{
+    "suggested_key":{
+      "default": "Ctrl+Shift+Z"
+    }
+  }
   },
   "icons": {
     "16": "static/icon-16.png",
