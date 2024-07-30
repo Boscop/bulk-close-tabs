@@ -1,29 +1,45 @@
 function announce_close() {
-	chrome.tabs.query({}, function (tabs) {
-		console.log("bulk closing tabs");
-		var closeable = [];
-		for (var i = 0; i < tabs.length; ++i) {
-			// console.log(tabs[i]);
-			const patterns = [
-				"youtube.com/watch?",
-				"youtu.be/",
-				"google.com/search?",
-				"duckduckgo.com/?q=",
-				"https://twitter.com/",
-				"spotify.com/",
-				"soundcloud.com/",
-			]
-			for (const pattern of patterns) {
-				if (tabs[i].url.includes(pattern)) {
-					console.log("closing tab: " + tabs[i].url);
-					closeable.push(tabs[i].id);
-				}
+	chrome.tabs.query({}, tabs => {
+		console.log("open tabs", tabs.length);
+		console.log("pinned tabs:");
+		var unpinned_tab_ids = [];
+		tabs.forEach(tab => {
+			if (tab.pinned) {
+				console.log(tab.id, tab.title, tab.url);
+			} else {
+				unpinned_tab_ids.push(tab.id);
 			}
-		}
-		console.log("closing " + closeable.length + " tabs");
-		chrome.tabs.remove(closeable);
-		console.log("tabs closed");
+		});
+		console.log("closing", unpinned_tab_ids.length, "unpinned tabs");
+		chrome.tabs.remove(unpinned_tab_ids);
+		console.log("unpinned tabs closed");
 	});
+	// chrome.tabs.query({}, function (tabs) {
+	// 	console.log("bulk closing tabs");
+	// 	var closeable = [];
+	// 	for (var i = 0; i < tabs.length; ++i) {
+	// 		// console.log(tabs[i]);
+	// 		const patterns = [
+	// 			"youtube.com/watch?",
+	// 			"youtu.be/",
+	// 			"google.com/search?",
+	// 			"duckduckgo.com/?q=",
+	// 			"https://twitter.com/",
+	// 			"spotify.com/",
+	// 			"soundcloud.com/",
+	// 		]
+	// 		for (const pattern of patterns) {
+	// 			if (tabs[i].url.includes(pattern)) {
+	// 				console.log("closing tab: " + tabs[i].url);
+	// 				closeable.push(tabs[i].id);
+	// 			}
+	// 		}
+	// 	}
+	// 	console.log("closing " + closeable.length + " tabs");
+	// 	chrome.tabs.remove(closeable);
+	// 	console.log("tabs closed");
+	// });
+
 	/* chrome.windows.getAll({ populate: true }, function (windows) {
 		console.log("bulk closing windows", windows.length);
 		var maxWidth = 0;
